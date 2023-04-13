@@ -19,7 +19,7 @@ import {
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
+import { useLinkTo } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 // import {
 //   // Colors,
@@ -43,6 +43,7 @@ type SectionProps = PropsWithChildren<{
 type NavProps = {
   navigate: (arg0: string) => void;
   goBack: () => void;
+  getState(): () => void;
 };
 
 type RouteProps = {
@@ -82,8 +83,9 @@ function Section({children, title}: SectionProps): JSX.Element {
 
 const config = {
   screens: {
-    Home: '/home',
-    Profile: '/feed',
+    initialRouteName: 'Home',
+    Home: '',
+    Profile: 'profile',
   },
 };
 
@@ -111,7 +113,12 @@ const Home = ({ navigation, route }: Props) => {
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
+  const move = useLinkTo();
 
+  const st = navigation.getState();
+  console.log(`Abhinav ${st}`);
+  console.log(`${st.toString()}`);
+  debugger;
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar
@@ -138,7 +145,7 @@ const Home = ({ navigation, route }: Props) => {
           </Section>
           {/* <LearnMoreLinks /> */}
           <Button
-            onPress={() => navigation.navigate('Profile')}
+            onPress={() => move('/profile')}
             title={'Go to Profile'}
             color="#841584"
             accessibilityLabel="Learn more about this purple button"
@@ -155,6 +162,11 @@ const Profile = ({ navigation, route }: Props) => {
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
+
+  const st = navigation.getState();
+  console.log(`Abhinav Profile ${st}`);
+  console.log(`${st.toString()}`);
+  debugger;
 
   return (
     <SafeAreaView style={backgroundStyle}>
