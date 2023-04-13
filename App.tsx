@@ -14,6 +14,7 @@ import {
   StyleSheet,
   Text,
   View,
+  Button,
 } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -38,6 +39,20 @@ const Colors = {
 type SectionProps = PropsWithChildren<{
   title: string;
 }>;
+
+type NavProps = {
+  navigate: (arg0: string) => void;
+  goBack: () => void;
+};
+
+type RouteProps = {
+  name: string;
+};
+
+type Props = {
+  navigation: NavProps;
+  route: RouteProps;
+};
 
 function Section({children, title}: SectionProps): JSX.Element {
   const isDarkMode = true;
@@ -67,8 +82,8 @@ function Section({children, title}: SectionProps): JSX.Element {
 
 const config = {
   screens: {
-    Home: '',
-    Feed: '/feed',
+    Home: '/home',
+    Profile: '/feed',
   },
 };
 
@@ -76,21 +91,21 @@ const linking = {
   prefixes: ['http://localhost:8080'],
   config,
 };
-  
+
 function App(): JSX.Element {
   // return <Screen2 />;
-  const Root = createNativeStackNavigator();
+  const Stack = createNativeStackNavigator();
   return (
-    <NavigationContainer linking={linking} fallback={<Screen2 />}>
-      <Root.Navigator>
-        <Root.Screen name="Home" component={Screen2} />
-        <Root.Screen name="Feed" component={Screen2} />
-      </Root.Navigator>
+    <NavigationContainer linking={linking}>
+      <Stack.Navigator>
+        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Profile" component={Profile} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }
 
-const Screen2 = () => {
+const Home = ({ navigation, route }: Props) => {
   const isDarkMode = true;
 
   const backgroundStyle = {
@@ -111,7 +126,7 @@ const Screen2 = () => {
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
           }}>
-          <Section title="Step One">
+          <Section title={route.name}>
             Edit <Text style={styles.highlight}>App.tsx</Text> to change this
             screen and then come back to see your edits.
           </Section>
@@ -122,6 +137,56 @@ const Screen2 = () => {
             Read the docs to discover what to do next:
           </Section>
           {/* <LearnMoreLinks /> */}
+          <Button
+            onPress={() => navigation.navigate('Profile')}
+            title={'Go to Profile'}
+            color="#841584"
+            accessibilityLabel="Learn more about this purple button"
+          />
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
+};
+
+const Profile = ({ navigation, route }: Props) => {
+  const isDarkMode = true;
+
+  const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+  };
+
+  return (
+    <SafeAreaView style={backgroundStyle}>
+      <StatusBar
+        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+        backgroundColor={backgroundStyle.backgroundColor}
+      />
+      <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
+        style={backgroundStyle}>
+        {/* <Header /> */}
+        <View
+          style={{
+            backgroundColor: isDarkMode ? Colors.black : Colors.white,
+          }}>
+          <Section title={route.name}>
+            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
+            screen and then come back to see your edits.
+          </Section>
+          <Section title="See Your Changes">
+            {/* <ReloadInstructions /> */}
+          </Section>
+          <Section title="Learn More">
+            Read the docs to discover what to do next:
+          </Section>
+          {/* <LearnMoreLinks /> */}
+          <Button
+            onPress={() => navigation.goBack()}
+            title={'Back to home'}
+            color="#841584"
+            accessibilityLabel="Learn more about this purple button"
+          />
         </View>
       </ScrollView>
     </SafeAreaView>
