@@ -13,10 +13,13 @@ import {
   StatusBar,
   StyleSheet,
   Text,
-  useColorScheme,
   View,
 } from 'react-native';
 
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+import { createStackNavigator } from '@react-navigation/stack';
 // import {
 //   // Colors,
 //   DebugInstructions,
@@ -37,7 +40,7 @@ type SectionProps = PropsWithChildren<{
 }>;
 
 function Section({children, title}: SectionProps): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+  const isDarkMode = true;
   return (
     <View style={styles.sectionContainer}>
       <Text
@@ -62,8 +65,33 @@ function Section({children, title}: SectionProps): JSX.Element {
   );
 }
 
+const config = {
+  screens: {
+    Home: '',
+    Feed: '/feed',
+  },
+};
+
+const linking = {
+  prefixes: ['http://localhost:8080'],
+  config,
+};
+  
 function App(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+  // return <Screen2 />;
+  const Root = createNativeStackNavigator();
+  return (
+    <NavigationContainer linking={linking} fallback={<Screen2 />}>
+      <Root.Navigator>
+        <Root.Screen name="Home" component={Screen2} />
+        <Root.Screen name="Feed" component={Screen2} />
+      </Root.Navigator>
+    </NavigationContainer>
+  );
+}
+
+const Screen2 = () => {
+  const isDarkMode = true;
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
@@ -98,7 +126,7 @@ function App(): JSX.Element {
       </ScrollView>
     </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   sectionContainer: {
