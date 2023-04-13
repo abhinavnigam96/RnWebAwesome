@@ -118,7 +118,7 @@ const Home = ({ navigation, route }: Props) => {
   const st = navigation.getState();
   console.log(`Abhinav ${st}`);
   console.log(`${st.toString()}`);
-  debugger;
+  
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar
@@ -166,7 +166,6 @@ const Profile = ({ navigation, route }: Props) => {
   const st = navigation.getState();
   console.log(`Abhinav Profile ${st}`);
   console.log(`${st.toString()}`);
-  debugger;
 
   return (
     <SafeAreaView style={backgroundStyle}>
