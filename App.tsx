@@ -83,8 +83,8 @@ function Section({children, title}: SectionProps): JSX.Element {
 
 const config = {
   screens: {
-    initialRouteName: 'Home',
-    Home: '',
+    // initialRouteName: 'Home',
+    Home: 'home',
     Profile: 'profile',
   },
 };
