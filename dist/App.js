@@ -41,8 +41,8 @@ function Section(_a) {
 }
 var config = {
     screens: {
-        initialRouteName: 'Home',
-        Home: '',
+        // initialRouteName: 'Home',
+        Home: 'home',
         Profile: 'profile',
     },
 };
